@@ -13,7 +13,7 @@ jobs:
       IMAGE_TAG: dev
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
       OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
-      OPENSHIFT_NAMESPACE: fastapi-demo
+      OPENSHIFT_NAMESPACE: ${{ secrets.OPENSHIFT_NAMESPACE }}
     steps:
       - uses: actions/checkout@v4
 
