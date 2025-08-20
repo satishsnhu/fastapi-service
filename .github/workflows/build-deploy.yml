@@ -1,41 +1,54 @@
-name: Build & Deploy to OpenShift
+name: Build & Deploy (Basic)
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-and-deploy:
+  build-deploy:
     runs-on: ubuntu-latest
     env:
       IMAGE_REGISTRY: quay.io
-      IMAGE_REPO: ${{ secrets.QUAY_REPO }} # e.g. myorg/fastapi-service
+      IMAGE_REPO: ${{ secrets.QUAY_REPO }} # e.g. fastapi/service
       IMAGE_TAG: dev
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
       OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       OPENSHIFT_NAMESPACE: fastapi-demo
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Log in to Quay
-        run: echo "${{ secrets.QUAY_PASSWORD }}" | docker login $IMAGE_REGISTRY -u "${{ secrets.QUAY_USERNAME }}" --password-stdin
+      - name: Login to Quay
+        run: echo "${{ secrets.QUAY_PASSWORD }}" | docker login quay.io -u "${{ secrets.QUAY_USERNAME }}" --password-stdin
 
-      - name: Build and push image
+      - name: Build & Push
         run: |
-          docker build -t $IMAGE_REGISTRY/$IMAGE_REPO:$IMAGE_TAG .
-          docker push $IMAGE_REGISTRY/$IMAGE_REPO:$IMAGE_TAG
+          docker build -t quay.io/$IMAGE_REPO:$IMAGE_TAG .
+          docker push quay.io/$IMAGE_REPO:$IMAGE_TAG
 
-      - name: Install oc CLI
+      - name: Install oc
         run: |
           curl -sLo oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
           tar -xzf oc.tar.gz
-          sudo mv oc /usr/local/bin/
+          sudo mv oc /usr/local/bin/oc
 
       - name: Login to OpenShift
-        run: oc login $OPENSHIFT_SERVER --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify
+        run: oc login "$OPENSHIFT_SERVER" --token="$OPENSHIFT_TOKEN" --insecure-skip-tls-verify
 
-      - name: Apply Kustomize overlay
+      - name: Ensure namespace
+        run: oc new-project "$OPENSHIFT_NAMESPACE" || true
+
+      # Uncomment if your Quay repo is PRIVATE
+      #- name: Add imagePullSecret
+      #  run: |
+      #    oc create secret docker-registry quay-pull \
+      #      --docker-server=quay.io \
+      #      --docker-username="${{ secrets.QUAY_USERNAME }}" \
+      #      --docker-password="${{ secrets.QUAY_PASSWORD }}" \
+      #      --docker-email=dummy@example.com \
+      #      -n "$OPENSHIFT_NAMESPACE" || true
+      #    oc secrets link default quay-pull --for=pull -n "$OPENSHIFT_NAMESPACE" || true
+
+      - name: Deploy Kustomize overlay
         run: |
-          oc apply -k https://github.com/<your-org>/<platform-apps-repo>/apps/fastapi-service/overlays/dev
+          oc apply -k https://github.com/satishsnhu/platform-apps/apps/fastapi-service/overlays/dev -n "$OPENSHIFT_NAMESPACE"
+          oc rollout status deploy/fastapi-service -n "$OPENSHIFT_NAMESPACE"
