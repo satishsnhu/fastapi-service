@@ -10,3 +10,7 @@ def root():
 def health():
     return {"status": "healthy"}
 
+@app.get("/greet")
+def greet(name: str = "world"):
+    return {"message": f"Hello, {name}!"}
+

@@ -1,0 +1,10 @@
+I’ve added a new `greet()` endpoint to your FastAPI app (in `app/main.py`), which takes an optional `name` query parameter (defaulting to “world”) and returns a personalized greeting.
+
+```python
+@app.get("/greet")
+def greet(name: str = "world"):
+    return {"message": f"Hello, {name}!"}
+```
+【F:app/main.py†L13-L15】
+
+Also updated `codex_update.txt` to record this change. Let me know if you need anything else!
