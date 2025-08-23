@@ -1,4 +1,4 @@
-I’ve added a new `greet()` endpoint to your FastAPI app (in `app/main.py`), which takes an optional `name` query parameter (defaulting to “world”) and returns a personalized greeting.
+I’ve added a new `greet()` endpoint to your FastAPI app (in `app/main.py`), which takes an optional `name` query parameter (defaulting to “world”) and returns a personalized greeting:
 
 ```python
 @app.get("/greet")
