@@ -1,4 +1,4 @@
-It looks like you already have a `greet()` endpoint defined in **app/main.py**. Here’s the relevant snippet:
+It looks like you already have a `greet()` endpoint defined in **app/main.py**:
 
 ```python
 @app.get("/greet")
@@ -7,4 +7,4 @@ def greet(name: str = "world"):
 ```
 【F:app/main.py†L13-L15】
 
-No further edits are needed to add this function. If you meant to add `greet()` to a different `main.py` (e.g. at the project root or elsewhere), just let me know where, and I’ll make the change there!
+So no further edits are required to add this function. If you intended to add a different `greet()` (for example, in a different `main.py` at the project root), just let me know where and I’ll make that change.
