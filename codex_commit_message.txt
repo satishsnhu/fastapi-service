@@ -7,4 +7,4 @@ def greet(name: str = "world"):
 ```
 【F:app/main.py†L13-L15】
 
-So no further edits are required to add this function. If you intended to add a different `greet()` (for example, in a different `main.py` at the project root), just let me know where and I’ll make that change.
+No further edits are needed. If you intended to add a different `greet()` (e.g. in another file or with different behavior), just let me know where and what you’d like it to do!
