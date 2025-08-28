@@ -20,6 +20,7 @@ A simple FastAPI service with two endpoints:
 
 - `GET /` — Returns `{ "ok": True, "service": "fastapi-service" }`
 - `GET /healthz` — Returns `{ "status": "healthy" }`
+- `GET /license?repo={owner}/{repo}` — Returns license information for the specified GitHub repository
 
 ## Docker
 
