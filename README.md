@@ -8,13 +8,13 @@ A simple FastAPI service with two endpoints:
 ## Quick Start
 
 1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 2. Run the service:
-   ```bash
-   uvicorn app.main:app --reload
-   ```
+```bash
+uvicorn app.main:app --reload
+```
 
 ## Endpoints
 
