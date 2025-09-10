@@ -1,0 +1,40 @@
+I’ve added a new FastAPI endpoint at `/greet` that returns “Good morning,” “Good afternoon,” or “Good evening” depending on the server’s current local hour. I also updated the README to document the new route.
+
+---
+
+### 1. New `/greet` endpoint in **app/main.py**
+
+```python
+@app.get("/greet")
+def greet():
+    """
+    Returns a greeting message based on the current server time.
+    """
+    from datetime import datetime
+
+    hour = datetime.now().hour
+    if hour < 12:
+        message = "Good morning"
+    elif hour < 18:
+        message = "Good afternoon"
+    else:
+        message = "Good evening"
+
+    return {"greeting": message}
+```
+【F:app/main.py†L13-L28】
+
+---
+
+### 2. README update to document `/greet`
+
+```markdown
+- `GET /` — Returns `{ "ok": True, "service": "fastapi-service" }`
+- `GET /healthz` — Returns `{ "status": "healthy" }`
+- `GET /greet` — Returns a greeting based on the current time (Good morning/afternoon/evening)
+```
+【F:README.md†L21-L24】
+
+---
+
+That’s it! The service now greets clients according to the time of day.

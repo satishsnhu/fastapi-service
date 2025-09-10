@@ -20,6 +20,7 @@ A simple FastAPI service with two endpoints:
 
 - `GET /` — Returns `{ "ok": True, "service": "fastapi-service" }`
 - `GET /healthz` — Returns `{ "status": "healthy" }`
+- `GET /greet` — Returns a greeting based on the current time (Good morning/afternoon/evening)
 
 ## Docker
 
