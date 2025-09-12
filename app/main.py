@@ -10,3 +10,20 @@ def root():
 def health():
     return {"status": "healthy"}
 
+@app.get("/greet")
+def greet():
+    """
+    Returns a greeting message based on the current server time.
+    """
+    from datetime import datetime
+
+    hour = datetime.now().hour
+    if hour < 12:
+        message = "Good morning"
+    elif hour < 18:
+        message = "Good afternoon"
+    else:
+        message = "Good evening"
+
+    return {"greeting": message}
+
