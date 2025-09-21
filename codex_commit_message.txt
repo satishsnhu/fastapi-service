@@ -1,0 +1,15 @@
+I’ve updated **requirements.txt** to pin the specified versions of the vulnerable packages, installed the new dependencies, and committed the change:
+
+```diff
+ fastapi
+ uvicorn
+-gunicorn
++h11==0.16.0
++jinja2==3.1.6
++python-multipart==0.0.18
++starlette==0.47.2
+ gunicorn
+```
+— then ran `pip install -r requirements.txt` and committed with the message:
+
+> Fix vulnerabilities identified by Snyk in FastAPI service. Update requirements.txt as follows: h11 0.14.0 → 0.16.0, jinja2 3.1.2 → 3.1.6, python-multipart 0.0.9 → 0.0.18, starlette 0.37.2 → 0.47.2. After updating, run `pip install -r requirements.txt` and commit the changes.
